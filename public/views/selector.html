@@ -1,0 +1,12 @@
+<div class="jumbotron text-center">
+	<h1>Selector</h1>
+
+<!--    <div>first bit of resolved scenes, from html. Here is the actual angular part:{{scenes}}</div>-->
+   <hr>
+    <div class="container">
+         <div class="card" ng-repeat="s in scenes">
+             <story-info info="s"></story-info>
+          <button class="btn" ng-click="play(s)">Play</button>
+        </div>
+      </div>
+</div>

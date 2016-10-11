@@ -1,0 +1,39 @@
+<div id="imageBackground">
+    <img ng-src="http://img.youtube.com/vi/{{sceneInfo.resource}}/0.jpg">
+</div>
+<div id="question">
+    <div id="spacing"></div>
+    <div id="questionhint">
+        <div ng-show=!isHint>{{sceneInfo.question}}</div>
+        <div ng-show=isHint>This is the hint</div>
+    </div>
+    <div id="spacing">
+        <div ng-show=!authorityError></div>
+        <div ng-show=authorityError id="error">Please enter some authority</div>
+    </div>
+    <div id="authority">
+        Case authority: <input type="text" ng-model="authority.text" placeholder="Enter case name here">
+    </div>
+    <div id="spacing">
+        <div ng-show=!nullAnswerError></div>
+        <div ng-show=nullAnswerError id="error">Please enter an answer</div>
+    </div>
+    <div id="answer">
+        <div ng-show=!isFeedback>
+        <label><input type="radio" ng-model="answer" ng-value="1">{{sceneInfo.answer1.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</label><br/>
+        <label><input type="radio" ng-model="answer" ng-value="2">{{sceneInfo.answer2.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</label><br/>
+        </div>
+        <div ng-show=isFeedback>This is the feedback</div>
+    </div>
+</div>
+<div id="hintButton">
+    <button ng-click="changeQH()">Hint</button>
+</div>
+<div id="submitNextButton">
+    <div ng-show=isFeedback>
+        <button ng-click="nextScene(answer)">Next</button>
+    </div>
+    <div ng-show=!isFeedback>
+        <button ng-click="submitResponse(answer)">Submit</button>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="jumbotron text-center">
+    <h1>Editor</h1>
+    
+<!--
+    x4JKxst4N7U<br>
+    AimNVUryJKo<br>
+    9sHpHgsDryM<br>
+    ufhzchpkMSs<br>
+    8Qfy6R87zcM<br>
+    eRZNJ_8FYPg<br>
+    http://proprofs-cdn.s3.amazonaws.com/images/QM/user_images/1826446/1455528360.png<br>
+    http://www.lawsessions.com/includes/modules/extra/videos/thumbnail.php?subject=contract-law<br>
+    http://www.seqlegal.com/sites/default/files/handshake3.png<br>
+    http://bigaustin.org/wp-content/uploads/2014/06/business-contract.jpg<br>
+    http://sd.keepcalm-o-matic.co.uk/i/keep-calm-and-study-contract-law.png<br>
+    http://www.ozassignmenthelp.com.au/wp-content/uploads/2015/10/property-law.jpg<br>
+-->
+       
+    <label>Title: </label><input type="text" ng-model="newScene.title"><br>
+    <label>Story Number: </label><input type="number" ng-model="newScene.storynumber"><br>
+    <label>Scene Number: </label><input type="number" ng-model="newScene.scenenumber"><br>
+    <label>Question: </label><br><textarea rows="4" cols="50" ng-model="newScene.question"></textarea><br>
+    <label>Answer 1: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label><input type="checkbox" ng-model="newScene.answer1.correct" value="answer1">Correct?: </label><br><textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer1.response"></textarea><br><input type="number" placeholder="Next question" ng-model="newScene.answer1.next"><input type="number" placeholder="Points" ng-model="newScene.answer1.points"><br>
+    <label>Answer 2: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label><input type="checkbox" ng-model="newScene.answer2.correct" value="answer2">Correct?: </label><br><textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer2.response"></textarea><br><input type="number" placeholder="Next Question" ng-model="newScene.answer2.next"><input type="number" placeholder="Points" ng-model="newScene.answer2.points"><br>
+    <label>Authority: </label><input type="text" ng-model="newScene.authority"><br>
+    <label>Time: </label><input type="number" ng-model="newScene.answerTime.minutes"><input type="text" ng-model="newScene.answerTime.seconds"><br>
+    <label><input type="radio" ng-model="newScene.resourceType" value="image">Image</label><br/>
+    <label><input type="radio" ng-model="newScene.resourceType" value="video">Video</label><br/>
+    <label>Resource: </label><input type="text" ng-model="newScene.resource"><br>
+    <label>Thumbnail: </label><input type="text" ng-model="newScene.thumbnail"><br>
+    <label>Start Time: </label><input type="number" ng-model="newScene.startTime.minutes"><input type="text" ng-model="newScene.startTime.seconds"><br>
+    <label>End Time: </label><input type="number" ng-model="newScene.endTime.minutes"><input type="text" ng-model="newScene.endTime.seconds"><br>
+    <label><input type="checkbox" ng-model="newScene.lastScene">Last Scene in Story?: </label><br>
+
+    <button ng-show="!editing" ng-click="saveScene()">Save Scene</button>
+    <button ng-show="editing" ng-click="updateScene()">Update Scene</button>
+    
+    <div ng-show="!editing" id="scene-list" class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="checkbox" ng-repeat="s in scenes">
+                    <label>Story Number:{{ s.storynumber }}</label>
+                    <label>Scene Number:{{ s.scenenumber }}</label>
+                    <label>Title: {{s.title}}</label>
+                    <label>
+                        <button ng-click="deleteScene(s._id)">Delete</button>
+                        <button ng-click="editScene(s._id)">Edit</button>  
+                    </label>
+                </div>
+            </div>
+        </div>
+</div>
