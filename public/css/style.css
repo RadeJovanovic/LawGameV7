@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 
 }
 
@@ -131,7 +131,8 @@ body {
     height:85vh;
     width: 70vw;
     margin-left:15vw;
-    margin-top:5vh
+    margin-top:5vh;
+/*    opacity:0.5;*/
 }
 
 #spacing{
@@ -150,17 +151,17 @@ body {
 
 #questionhint {
     height: 30vh;
-    background-color: blue;
+    background-color: white;
 }
 
 #authority {
 
     height: 10vh;
-    background-color: green;
+    background-color: white;
 }
 
 #answer {
-    background-color: yellow;
+    background-color: white;
     height: 35vh;
 }
 
@@ -202,4 +203,55 @@ width:100vw;
 
 #error {
     background-color: red;
+}
+
+#homescreen {
+    background-color: dodgerblue;
+    height: 100vh;
+    width:100vw;
+}
+
+#selector {
+    background-color: white;
+    width:100vw;
+    height:100vh;
+    margin-top: 0;
+}
+
+#selectorheading{
+    margin-top:10vh;
+    font-size: 250%;
+}
+
+h1{
+    margin-top:0;
+    font-size: 500%
+}
+
+center{
+    margin-top: 40vh;
+}
+
+.solutionSet{
+    padding:1em;
+}
+
+#centerEditor{
+    margin: 0 auto;
+    margin-left:20%;
+    background-color:bisque;
+    margin-right:20%;
+}
+
+#editor{
+    background-image: url(http://nagps.org/wordpress/wp-content/uploads/2014/02/law.jpg)
+}
+
+#metadata{
+    padding: 1em;
+    margin-left:10vw;
+}
+
+#answerData, #sceneList{
+    margin-left:10vw;
 }

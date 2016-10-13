@@ -69,6 +69,12 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
                 controller:''
             })
         
+            .state('dummy', {
+            url:'/dummy',
+            templateUrl: 'views/dummy.html',
+            controller:''
+        })
+        
             .state('editor', {
                 url:'/editor',
                 templateUrl: 'views/editor.html',
@@ -241,10 +247,16 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
      
      $scope.submitResponse = function(answer){
          console.log(answer)
-          if ((answer!==1)||(answer!==2)){$scope.nullAnswerError = true; console.log('No Answer')}
+          if (answer==1)
+            {console.log('Answer1')}
          console.log($scope.authority)
-         if (isNull(authority)){$scope.authorityError = true; console.log('No Authority')}
-         else {$scope.isFeedback = !($scope.isFeedback)}
+//         if (isNull(authority))
+//         {
+//             $scope.authorityError = true; 
+//             console.log('No Authority')
+//         }
+        
+//         else {$scope.isFeedback = !($scope.isFeedback)}
      }
      
      function isNull(object){

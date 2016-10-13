@@ -1,12 +1,11 @@
-<div class="jumbotron text-center">
-	<h1>Selector</h1>
-
-<!--    <div>first bit of resolved scenes, from html. Here is the actual angular part:{{scenes}}</div>-->
-   <hr>
-    <div class="container">
+<div id="selector">	
+<section layout="column" layout-align="center center">
+    <h1>Selector</h1>
+</section>
+    <section>
          <div class="card" ng-repeat="s in scenes">
              <story-info info="s"></story-info>
-          <button class="btn" ng-click="play(s)">Play</button>
-        </div>
-      </div>
+          <md-button class="md-primary md-raised" ng-click="play(s)">Play</md-button>
+        </section>
+    </div>
 </div>

@@ -27,13 +27,13 @@
     </div>
 </div>
 <div id="hintButton">
-    <button ng-click="changeQH()">Hint</button>
+    <md-button class="md-raised md-warn" ng-click="changeQH()">Hint</md-button>
 </div>
 <div id="submitNextButton">
     <div ng-show=isFeedback>
-        <button ng-click="nextScene(answer)">Next</button>
+        <md-button class="md-primary md-raised" ng-click="nextScene(answer)">Next</md-button>
     </div>
     <div ng-show=!isFeedback>
-        <button ng-click="submitResponse(answer)">Submit</button>
+        <md-button class="md-primary md-raised" ng-click="submitResponse(answer)">Submit</md-button>
     </div>
 </div>
