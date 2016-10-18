@@ -1,16 +1,12 @@
 <div id=homescreen>
-<div id="center">
-    <section layout="column" layout-align="center center" layout-wrap layout-sm="column" flex>
-	<h1>Contract Law</h1>
-
-	<h2>Welcome to the Monash Uni Game App</h2>
-    <md-button class="md-primary md-raised" ng-click="login()">Start</md-button>
-    </section>
-</div>
+    <div id="centreLogin">
+        <h1>Contract Law</h1>
+        <h2>Welcome to the Monash Uni Game App</h2>
+        <md-input-container>
+            <label>Your Name: </label>
+            <input ng-model="newScene.title" type="text" required>
+        </md-input-container><br>
+        <md-button class="md-primary md-raised" ng-click="login()">Start</md-button>
+        <md-button class="md-warn md-raised" ng-click="studyMaterial()">Open Study Material</md-button>
     </div>
-<!--
-
-<div>
-<timer countdown="3" interval="1000" finish-callback="callbackTimer.finished()">{{seconds}} second{{secondsS}}</timer>
 </div>
--->

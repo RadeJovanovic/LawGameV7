@@ -17,20 +17,20 @@
         http://www.ozassignmenthelp.com.au/wp-content/uploads/2015/10/property-law.jpg<br>
     -->
 
-        
+
         <h2>Scene Metadata:</h2>
         <md-input-container>
             <label>Title </label>
-            <input ng-model="newScene.title" type="text">
+            <input ng-model="newScene.title" type="text" required ng-pattern="^[0-9]$">
         </md-input-container>
             <br>
         <md-input-container>
             <label>Story Number </label>
-            <input ng-model="newScene.storynumber" type="number">
+            <input ng-model="newScene.storynumber" type="number" required>
         </md-input-container>
         <md-input-container>
             <label>Scene Number </label>
-            <input ng-model="newScene.scenenumber" type="number">
+            <input ng-model="newScene.scenenumber" type="number" required>
         </md-input-container>
         <br>
         
@@ -38,7 +38,7 @@
         <h2>Law Material:</h2>
         <label>Question: </label>
             <br><br>
-            <textarea rows="4" cols="50" ng-model="newScene.question" placeholder="Question Text" style="background-color: bisque;"></textarea>
+            <textarea rows="4" cols="50" ng-model="newScene.question" required placeholder="Question Text" style="background-color: bisque; font-family:Palatino, serif; background-color: bisque;"></textarea>
             <br>
         <br>
             </div>
@@ -47,7 +47,7 @@
         <div layout="row" layout-wrap>
             <div class="solutionSet">
                 <label>Answer 1: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <label>Correct?: </label><md-checkbox ng-model="newScene.answer1.correct" aria-label="Correct?"></md-checkbox>
+                <label>Correct?: </label><md-checkbox ng-model="newScene.answer1.correct" required aria-label="Correct?"></md-checkbox>
                 <br>
                 <textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer1.response" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br><br>
                 <textarea rows="4" cols="50" placeholder="Feedback" ng-model="newScene.answer1.feedback" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br>
@@ -64,7 +64,7 @@
 
             <div class="solutionSet">
                 <label>Answer 2: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <label>Correct?: </label><md-checkbox ng-model="newScene.answer2.correct" aria-label="Correct?"></md-checkbox>
+                <label>Correct?: </label><md-checkbox ng-model="newScene.answer2.correct" required aria-label="Correct?"></md-checkbox>
                 <br>
                 <textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer2.response" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br><br>
                 <textarea rows="4" cols="50" placeholder="Feedback" ng-model="newScene.answer2.feedback" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br>
@@ -80,7 +80,7 @@
 
             <div class="solutionSet">
             <label>Answer 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label>Correct?: </label><md-checkbox ng-model="newScene.answer3.correct" aria-label="Correct?"></md-checkbox>
+            <label>Correct?: </label><md-checkbox ng-model="newScene.answer3.correct" required aria-label="Correct?"></md-checkbox>
             <br>
             <textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer3.response" style="font-family:Palatino, serif; background-color: bisque;" ></textarea><br><br>
             <textarea rows="4" cols="50" placeholder="Feedback" ng-model="newScene.answer3.feedback" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br>
@@ -96,7 +96,7 @@
 
             <div class="solutionSet">
             <label>Answer 4: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label>Correct?: </label><md-checkbox ng-model="newScene.answer4.correct" aria-label="Correct?"></md-checkbox>
+            <label>Correct?: </label><md-checkbox ng-model="newScene.answer4.correct" required aria-label="Correct?"></md-checkbox>
             <br>
             <textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer4.response" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br><br>
             <textarea rows="4" cols="50" placeholder="Feedback" ng-model="newScene.answer4.feedback" style="font-family:Palatino, serif; background-color: bisque;"></textarea><br>
@@ -115,60 +115,60 @@
         <label>Case Authority</label><br>
         <md-input-container>
             <label>Party 1</label>
-            <input ng-model="newScene.authority1" type="text">
+            <input ng-model="newScene.authority1" type="text" required>
         </md-input-container>
         <md-input-container>
             <label>Party 2</label>
-            <input ng-model="newScene.authority2" type="text">
+            <input ng-model="newScene.authority2" type="text" required>
         </md-input-container><br>
         <label>Maximum Response Time:</label><br>
         <md-input-container>
             <label>Minutes</label>
-            <input ng-model="newScene.answerTime.minutes" type="number">
+            <input ng-model="newScene.answerTime.minutes" type="number" required>
         </md-input-container>
         <md-input-container>
             <label>Seconds</label>
-            <input ng-model="newScene.answerTime.seconds" type="number">
+            <input ng-model="newScene.answerTime.seconds" type="number" required>
         </md-input-container><br>
 
         <h2>Visual Resource Material:</h2>
-        <md-radio-group ng-model="newScene.resourceType">
+        <md-radio-group ng-model="newScene.resourceType" required>
             <md-radio-button value="image">Image</md-radio-button>
             <md-radio-button value="video">Video</md-radio-button>
         </md-radio-group>
 
         <md-input-container>
             <label>Resource URL</label>
-            <input ng-model="newScene.resource" type="text">
+            <input ng-model="newScene.resource" type="text" required>
         </md-input-container>
 
         <md-input-container>
             <label>Thumbnail</label>
-            <input ng-model="newScene.thumbnail" type="text">
+            <input ng-model="newScene.thumbnail" type="text" required>
         </md-input-container>
         <br>
 
         <label>Video Start Time:</label><br>
         <md-input-container>
             <label>Minutes</label>
-            <input ng-model="newScene.startTime.minutes" type="number">
+            <input ng-model="newScene.startTime.minutes" type="number" required>
         </md-input-container>
         <md-input-container>
             <label>Seconds</label>
-            <input ng-model="newScene.startTime.seconds" type="number">
+            <input ng-model="newScene.startTime.seconds" type="number" required>
         </md-input-container><br>
 
         <label>Video End Time:</label><br>
         <md-input-container>
             <label>Minutes</label>
-            <input ng-model="newScene.endTime.minutes" type="number">
+            <input ng-model="newScene.endTime.minutes" type="number" required>
         </md-input-container>
         <md-input-container>
             <label>Seconds</label>
-            <input ng-model="newScene.endTime.seconds" type="number">
+            <input ng-model="newScene.endTime.seconds" type="number" required>
         </md-input-container><br>
 
-        <label>Last Scene in Story?: </label><md-checkbox ng-model="newScene.answer2.lastScene" aria-label="Last Scene?"></md-checkbox>
+        <label>Last Scene in Story?: </label><md-checkbox ng-model="newScene.answer2.lastScene" required aria-label="Last Scene?"></md-checkbox>
         <br>
 
         <md-button class="md-primary md-raised" ng-show="!editing" ng-click="saveScene()">Save Scene</md-button>

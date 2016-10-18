@@ -21,6 +21,7 @@ console.log('Rads Law Game is connected on port '+ port);
 });
 
 var Schema = mongoose.Schema;
+
 var sceneSchema = new Schema({
     storynumber: Number,
     scenenumber: Number,
@@ -54,6 +55,11 @@ var sceneSchema = new Schema({
     resourceType:String,
     authority:String
 });
+
+//var studentSchema = new Schema({
+//    userName: String,
+//    points: Number
+//})
 
 var Scene = mongoose.model('Scene', sceneSchema);
 module.exports = Scene;

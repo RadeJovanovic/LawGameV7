@@ -1,10 +1,17 @@
 <div id="imageBackground">
-    <img ng-src="http://img.youtube.com/vi/{{sceneInfo.resource}}/0.jpg">
+    <div ng-show=video>
+        <img ng-src="http://img.youtube.com/vi/{{sceneInfo.resource}}/0.jpg">
+    </div>
+    <div ng-show=!video>
+        <img ng-src="{{sceneInfo.resource}}">
+    </div>
+    
 </div>
 <div id="question">
-    <div id="spacing"></div>
     <div id="questionhint">
-        <div ng-show=!isHint>{{sceneInfo.question}}</div>
+        <h3>Question:</h3>
+<!--        <div ng-show=!isHint>{{sceneInfo.question}}</div>-->
+        <div ng-show=!isHint>Was a contract made between either Wayne, Jenny or Rose?</div>
         <div ng-show=isHint>This is the hint</div>
     </div>
     <div id="spacing">
@@ -12,28 +19,56 @@
         <div ng-show=authorityError id="error">Please enter some authority</div>
     </div>
     <div id="authority">
-        Case authority: <input type="text" ng-model="authority.text" placeholder="Enter case name here">
+        <h3>Case authority: </h3>
+        <md-input-container>
+            <label>Enter name of either party</label>
+            <input ng-model="authority.text" type="text">
+        </md-input-container>
     </div>
     <div id="spacing">
         <div ng-show=!nullAnswerError></div>
         <div ng-show=nullAnswerError id="error">Please enter an answer</div>
     </div>
     <div id="answer">
+        <h3>Your answer:</h3>
         <div ng-show=!isFeedback>
-        <label><input type="radio" ng-model="answer" ng-value="1">{{sceneInfo.answer1.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</label><br/>
-        <label><input type="radio" ng-model="answer" ng-value="2">{{sceneInfo.answer2.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</label><br/>
+<!--
+            <md-radio-group ng-model="answer.response">
+                <md-radio-button value="1">{{sceneInfo.answer1.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</md-radio-button>
+                <md-radio-button value="2">{{sceneInfo.answer2.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</md-radio-button>
+                <md-radio-button value="3">{{sceneInfo.answer3.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</md-radio-button>
+                <md-radio-button value="4">{{sceneInfo.answer4.response}} for story {{sceneInfo.storynumber}} question {{sceneInfo.scenenumber}}</md-radio-button>
+            </md-radio-group>
+-->
+            <md-radio-group ng-model="answer.response">
+                <md-radio-button value="1">Wayne already made a contract with Rose</md-radio-button>
+                <md-radio-button value="2">Wayne did not make a contract with Rose</md-radio-button>
+                <md-radio-button value="3">Jenny breached her contract with Rose</md-radio-button>
+                <md-radio-button value="4">Jenny has no idea what she is doing</md-radio-button>
+            </md-radio-group>
+            
+            
         </div>
         <div ng-show=isFeedback>This is the feedback</div>
     </div>
 </div>
+<!--
+<div id=progressButton>
+    <md-button class="md-primary md-raised" ng-click="move()">Click Me</md-button> 
+</div>
+-->
+
 <div id="hintButton">
-    <md-button class="md-raised md-warn" ng-click="changeQH()">Hint</md-button>
+    <md-button ng-show=hintButton class="md-raised md-warn" ng-click="changeQH()">Hint</md-button>
 </div>
 <div id="submitNextButton">
     <div ng-show=isFeedback>
-        <md-button class="md-primary md-raised" ng-click="nextScene(answer)">Next</md-button>
+        <md-button class="md-accent md-raised" ng-click="nextScene(answer)">Next</md-button>
     </div>
     <div ng-show=!isFeedback>
-        <md-button class="md-primary md-raised" ng-click="submitResponse(answer)">Submit</md-button>
+        <md-button class="md-raised" ng-click="submitResponse(answer)">Submit</md-button>
     </div>
+</div>
+<div id="materialProgress">
+    <md-progress-linear style="height=100%" md-mode="determinate" value="{{progressBarValue}}"></md-progress-linear>
 </div>

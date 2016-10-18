@@ -12,7 +12,7 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
 .config(
   [          '$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider,   $urlRouterProvider, $locationProvider) {
-//        $locationProvider.html5Mode(true);
+        
         $urlRouterProvider.otherwise('/login');
         
         $stateProvider
@@ -26,8 +26,19 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
             .state('selector', {
                 url:'/selector',
                 templateUrl: 'views/selector.html',
-                controller: 'selectorController'
-            
+                controller: 'selectorController',
+                resolve: {
+                    sceneinfo: ['$stateParams', 'sceneService', function($stateParams, sceneService){
+                        return sceneService.getAll()
+                            .success(function(data){
+                                return data;
+                            })
+                            .error(function(data){
+                                console.log('Error: '+ data)
+                                return null;
+                            })
+                    }]
+                }
             })
                         
             .state('game', {
@@ -36,13 +47,12 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
                 templateUrl: 'views/game.html',
                 controller: 'gameController',
                 resolve: {
-                    sceneinfo: ['$stateParams', 'sceneService', function($stateParams, sceneService){
+                    singlesceneinfo: ['$stateParams', 'sceneService', function($stateParams, sceneService){
                         var story = $stateParams.storynumber;
                         var scene = $stateParams.scenenumber;                
                         return sceneService.resolveOne(story, scene)
                             .success(function(data){
-                                console.log('This is the data coming from the game resolve:')
-                                console.log(data)
+//                                console.log(data)
                                 return data;
                             })
                             .error(function(data){
@@ -69,12 +79,6 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
                 controller:''
             })
         
-            .state('dummy', {
-            url:'/dummy',
-            templateUrl: 'views/dummy.html',
-            controller:''
-        })
-        
             .state('editor', {
                 url:'/editor',
                 templateUrl: 'views/editor.html',
@@ -91,14 +95,13 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
 /////////////////SERVICES///////////////////////////
 
 .service('loginService', ['$http', '$state', function($http, $state) {
-   console.log('I have entered the service')
    this.goToSelector = function(){
           $state.go('selector')
    }
 }])
 
 .service('sceneService', ['$http', function($http) {
-    console.log('By injecting, I have entered')
+    
     var baseUrl = 'http://localhost:8080'
     
     this.saveNew = function(newScene) {
@@ -132,144 +135,179 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
         return $http.get(url);
     }
 }])
+
+.service('timerService', ['$state', '$timeout', function($state, $timeout){
+    
+    console.log('Injecting the timer (perhaps again)')
+//    this.startTimer = function(answerTime){
+//        var answerDelay = 1000*(answerTime.minutes*60+answerTime.seconds);
+//        var answerTimeout = $timeout(outOfTime, answerDelay)
+//    }
+    
+    this.timeBetween = function(startTimeFromController){
+        var endTime = Date.now();
+        var startTime = startTimeFromController;
+        var duration = (endTime-startTime)/1000 //converting to seconds from milliseconds
+        console.log('The time it took to answer question is: '+duration)
+        return duration
+    }
+    
+    function playProgressBar(){
+        console.log('Long method progress bar')
+    }
+
+//    function outOfTime(){ //this function is meant to automatically submit the answer and receive feedback and go into the feedback state if allowed time is exceeded
+//        console.log('You are out of time!')
+//        $state.go('death')
+//Cannot do any of the below as scope is not defined
+        //        $scope.isHint = false;
+//        $scope.hintButton = false;
+//        $scope.isFeedback = true;
+        
+        // First check whether appropriate input, if not, automatically zero points and points lost
+        // Then 
+//    }
+}])
     
 //////////////////CONTROLLERS//////////////////////
 
 .controller('loginController', ['loginService', '$scope', '$state', 
                         function(loginService,   $scope,   $state) {
 
-	$scope.tagline = 'This is the login page';
     $scope.login = function(){
         console.log('Yay you logged in!!')
         loginService.goToSelector()
     };
+                            
+    $scope.studyMaterial = function(){
+        var win = window.open('http://www.australiancontractlaw.com/law.html')
+        win.focus;
+    }
 }])
 //
-.controller('selectorController', ['$scope', 'sceneService', '$state',
-                        function(   $scope,   sceneService,   $state) {
-    console.log('selectorController running')
+.controller('selectorController', ['$scope', 'sceneService', '$state', 'sceneinfo',
+                        function(   $scope,   sceneService,   $state,   sceneinfo) {
     
-    getAllScenes();
-    var allScenes = returnAllScenes();
-//    console.log($scope.scenes) //why is this returning undefined, 
-    console.log(allScenes)
-    filterFirstScenes();
-     
+    var sceneInfo = sceneinfo.data;
+    $scope.scenes = sceneInfo;
+   
     $scope.play = function(s){
         var story = s.storynumber;
         $state.go('game.media', {storynumber: story, scenenumber: 1});
     }            
-    
-    function getAllScenes() {
-        sceneService.getAll()
-            .success(function(data){
-                $scope.scenes = data;
-                var allScenes = data;
-                console.log($scope.scenes); //This prints
-                return allScenes;
-            })
-            .error(function(data){
-                console.log('Error: '+ data);
-            });
-    }
-                            
-    function returnAllScenes() {
-        return sceneService.getAll()
-            .success(function(data){
-                var allScenes = data;
-                console.log(allScenes)
-                return allScenes;
-            })
-            .error(function(data){
-                console.log('Error: '+ data);
-            });
-    }
-                            
-    function filterFirstScenes(){
-        console.log($scope.scenes) //To check whether it is reading it
-//        var firstScenes = allScenes.filter(function(scene){
-////        $scope.firstScenes = $scope.scenes.filter(function(scene){
-//            if (scene.scenenumber===1){
-//                return true;
-//            }
-//            else {return false}
-//        })        
-    }
+            
+    $scope.firstScenes = $scope.scenes.filter(function(scene){
+        if (scene.scenenumber===1){
+            return true;
+        }
+        else {return false}
+    });
 }])
 
-.controller('gameController', ['$scope', 'sceneinfo', '$stateParams', '$sce', '$state', '$timeout',
-                    function(   $scope,   sceneinfo,   $stateParams,   $sce,   $state,   $timeout) {
+.controller('gameController', ['$scope', 'singlesceneinfo', '$stateParams', '$sce', '$state', '$timeout', '$interval', 'timerService', '$rootScope',
+                    function(   $scope,   singlesceneinfo,   $stateParams,   $sce,   $state,   $timeout, $interval, timerService, $rootScope) {
 
-//  View setup
-    var sceneInfo = sceneinfo.data;
+    console.log('You have entered the game controller')
+
+    var sceneInfo = singlesceneinfo.data;
     $scope.sceneInfo = sceneInfo;
-    $scope.nextScene = sceneInfo.scenenumber+1;
+    console.log(sceneInfo)
+    $scope.videoOrImage = sceneInfo.resourceType;
+    if ($scope.videoOrImage=="video"){
+        $scope.video = true;
+    }
+    else {$scope.video = false;}
     $scope.videoID = sceneInfo.resource; // videoID gets passed to the directive
     var startInSeconds = sceneInfo.startTime.minutes*60+sceneInfo.startTime.seconds;
     var endInSeconds = sceneInfo.endTime.minutes*60+sceneInfo.endTime.seconds;  
-                            
-//  Changing gameplay mode
     $scope.playerVars = {controls: 0, autoplay: 1, start:startInSeconds, end:endInSeconds};
-    $scope.$on('youtube.player.ended', function ($event, player) {
-        $state.go('game.question', {storynumber: sceneInfo.storynumber, scenenumber: sceneInfo.scenenumber})
-    });                
-    
-//  Gameplay
+             
     $scope.isQuestion = true;
     $scope.isHint = false;
     $scope.answer = {};
     $scope.isFeedback = false;
-    $scope.authorityError = false;
-    $scope.nullAnswerError = false;
     $scope.authority = {};
-//    var questionDelay = sceneInfo.maxTime;
-    var questionDelay = 5000 //this should be the video time plus the question time, but actually no, as we do not get out of the game controller in the entire sequence, so must use a timerService that employs the current date
-    // ACTUALLY, EACH TIME WE PRESS NEWSCENE, THE TIMER CAN BE RESTARTED
-                        
-    $scope.$on('$viewContentLoaded', function(){
-        $timeout(outOfTime, questionDelay) //NOT ALLOWED TO USE PARENTHESES ON THE OUTOFTIME!!!
-    });
+    $scope.hintButton = true;
+
+    $scope.changeQH = function(){
+        $scope.isHint = !($scope.isHint);
+    }
     
+    $scope.$on('youtube.player.ended', function ($event, player) {
+        $state.go('game.question', {storynumber: sceneInfo.storynumber, scenenumber: sceneInfo.scenenumber})
+    });   
+
+    var answerTimeout;
+    $scope.$on('$viewContentLoaded', function(){
+    if ($state.includes("game.question")){
+        playProgressBar();
+        var answerDelay = 1000*(sceneInfo.answerTime.minutes*60+sceneInfo.answerTime.seconds);
+        answerTimeout = $timeout(outOfTime, answerDelay);
+        $rootScope.startOfQuestion = Date.now();
+    }});
+    
+    $scope.submitResponse = function(answer){
+        console.log($rootScope.startOfQuestion)
+        console.log(answer.response)
+        $scope.authorityError = false;
+        $scope.nullAnswerError = false;
+        //write a case statement
+        if (answer.response=="1"||answer.response=="2"){
+            console.log('Valid answer')
+            if ($scope.authority.text!==undefined){
+                var timeTaken = timerService.timeBetween($rootScope.startOfQuestion)
+                $interval.cancel(answerTimeout)
+                console.log('Time taken for answer: '+timeTaken)
+                $scope.isFeedback = true; 
+                $scope.hintButton = false;
+                $scope.isHint = false;
+                console.log('Valid authority')
+            }
+            else {
+                $scope.authorityError=true;
+            }
+        }
+        else {
+            console.log('Error: invalid answer')
+            $scope.nullAnswerError=true;
+        }   
+     }
+     
     $scope.nextScene = function(answer){
-        var nextDigit = answer;
-        var next1 = $scope.sceneInfo.answer1.next;
-        console.log(next1)
-        var next2 = $scope.sceneInfo.answer2.next;
-        console.log(next2)
-        if (nextDigit==1) {var appropriateNextScene = next1;}
-        else {var appropriateNextScene = next2;}
+        console.log(answer)
+        //This had to be done in such a poor manner due to the structure of the database
+        if (answer.response==1) {var appropriateNextScene = $scope.sceneInfo.answer1.next;}
+        else if (answer.response==2) {var appropriateNextScene = $scope.sceneInfo.answer2.next;}
+        else if (answer.response==3) {var appropriateNextScene = $scope.sceneInfo.answer3.next;}
+        else if (answer.response==4) {var appropriateNextScene = $scope.sceneInfo.answer4.next;}
+        $scope.progressBarValue = 0;
         $state.go('game.media', {scenenumber: appropriateNextScene})
     }
      
-     $scope.changeQH = function(){
-         $scope.isHint = !($scope.isHint);
-     }
-     
-     $scope.submitResponse = function(answer){
-         console.log(answer)
-          if (answer==1)
-            {console.log('Answer1')}
-         console.log($scope.authority)
-//         if (isNull(authority))
-//         {
-//             $scope.authorityError = true; 
-//             console.log('No Authority')
-//         }
-        
-//         else {$scope.isFeedback = !($scope.isFeedback)}
-     }
-     
-     function isNull(object){
-          for (var i in object){
+     function isNotNull(object){
+         console.log('This is coming from the isNotNull function ' + object) 
+         for (var i in object){
               return true;
           } 
          return false;
      }
-             
-    function outOfTime(answer){ //this function is meant to automatically submit the answer and receive feedback and go into the feedback state if allowed time is exceeded
+            
+    //Progress bar stuff
+    function playProgressBar(){
+        var answerTimeSeconds = sceneInfo.answerTime.minutes*60+sceneInfo.answerTime.seconds;
+        console.log(sceneInfo.answerTime);
+        $scope.progressBarValue = 0;
+        $interval(function() {
+            $scope.progressBarValue += (10/answerTimeSeconds)
+            if ($scope.progressBarValue > 100) {
+                $scope.progressBarValue = 100;
+            }
+        }, 100, 0, true);
+    }
+                        
+    function outOfTime(){
         console.log('You are out of time!')
-        // First check whether appropriate input, if not, automatically zero points and points lost
-        // Then 
+        $state.go('death')
     }
 }])
 
@@ -278,17 +316,20 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
     
     $scope.newScene = {};
     $scope.editing = false;
-    console.log('Editing = ' + $scope.editing)
-      
     getAllScenes(); //Do this on page landing
                             
     $scope.saveScene = function(){
         //Rules: each story must have a number 1 scene
-        
+        console.log($scope.newScene)
+        if (isNotNull($scope.newScene)){
+            console.log('Please enter something in the scene')
+        }
         //check if scene is ok to save
         //check if the story has a new 
+        else{
         saveScene();
         getAllScenes();
+        }
         //when saving scene, need to check whether linking scene has been made, and if not, create an empty linking scene. 
     };
     
@@ -300,7 +341,7 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
     $scope.editScene = function(id){
         editScene(id);
         $scope.editing = true
-        console.log('Editing = ' + $scope.editing)
+//        console.log('Editing = ' + $scope.editing)
     };
                             
     $scope.updateScene = function(){
@@ -314,7 +355,7 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
         sceneService.getAll()
             .success(function(data){
                 $scope.scenes = data;
-                console.log($scope.scenes);
+//                console.log($scope.scenes);
             })
             .error(function(data){
                 console.log('Error: '+ data);
@@ -327,7 +368,7 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
                 console.log(data);
                 $scope.newScene = {}
                 $scope.editing = false;
-                console.log('Editing = ' + $scope.editing)
+//                console.log('Editing = ' + $scope.editing)
             })
             .error(function(data){
                 console.log('Error: ' + data);
@@ -367,6 +408,14 @@ angular.module('lawGame', ['ui.router', 'youtube-embed', 'ngMaterial', 'ngAria',
             console.log('Error ' + data)
         }) 
     }
+                            
+    function isNotNull(object){
+         console.log('This is coming from the isNotNull function ' + object) 
+         for (var i in object){
+              return true;
+          } 
+         return false;
+     }
                             
 }])
 
